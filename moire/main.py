@@ -4,7 +4,7 @@ from kivy.clock import Clock
 
 
 class MainEngine(Widget):
-
+    
     def update(self, dt):
         pass
 
@@ -19,5 +19,5 @@ class GUI(App):
     
     def build(self):
         engine = MainEngine()
-        Clock.schedule_interval(MainEngine.update, 1.0 / 25.0)
+        Clock.schedule_interval(engine.update, 1.0 / 25.0)
         return engine
