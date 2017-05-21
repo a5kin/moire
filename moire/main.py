@@ -2,6 +2,9 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
 from kivy.core.window import Window
+from kivy.properties import ObjectProperty
+from kivy.graphics.texture import Texture
+from kivy.graphics import Rectangle
 from kivy.config import Config
 
 
@@ -11,8 +14,19 @@ Config.write()
 
 class MainEngine(Widget):
 
+    viewport = ObjectProperty()
+    runnable = ObjectProperty()
+
+    def prepare(self):
+        self.viewport = Texture.create(size=Window.size)
+        self.runnable.set_viewport(Window.size)
+
     def update(self, dt):
-        pass
+        self.runnable.step()
+        buf = self.runnable.render()
+        self.viewport.blit_buffer(buf, colorfmt='rgb', bufferfmt='ubyte')
+        with self.canvas:
+            Rectangle(texture=self.viewport, pos=(0, 0), size=Window.size)
 
 
 class GUI(App):
@@ -36,5 +50,7 @@ class GUI(App):
 
     def build(self):
         engine = MainEngine()
+        engine.runnable = self.runnable
+        engine.prepare()
         Clock.schedule_interval(engine.update, 1.0 / 25.0)
         return engine
