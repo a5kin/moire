@@ -16,17 +16,20 @@ class MainEngine(Widget):
 
     viewport = ObjectProperty()
     runnable = ObjectProperty()
+    background = ObjectProperty()
 
     def prepare(self):
         self.viewport = Texture.create(size=Window.size)
         self.runnable.set_viewport(Window.size)
+        with self.canvas:
+            self.background = Rectangle(texture=self.viewport,
+                                        pos=(0, 0), size=Window.size)
 
     def update(self, dt):
         self.runnable.step()
         buf = self.runnable.render()
-        self.viewport.blit_buffer(buf, colorfmt='rgb', bufferfmt='ubyte')
-        with self.canvas:
-            Rectangle(texture=self.viewport, pos=(0, 0), size=Window.size)
+        self.viewport.blit_buffer(buf, colorfmt='luminance', bufferfmt='ubyte')
+        self.background.texture = self.viewport
 
 
 class GUI(App):
