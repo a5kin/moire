@@ -28,7 +28,7 @@ class MainEngine(Widget):
     def update(self, dt):
         self.runnable.step()
         buf = self.runnable.render()
-        self.viewport.blit_buffer(buf, colorfmt='luminance', bufferfmt='ubyte')
+        self.viewport.blit_buffer(buf, colorfmt='rgb', bufferfmt='ubyte')
         self.background.texture = self.viewport
 
 
