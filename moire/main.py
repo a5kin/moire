@@ -24,12 +24,27 @@ class MainEngine(Widget):
         with self.canvas:
             self.background = Rectangle(texture=self.viewport,
                                         pos=(0, 0), size=Window.size)
+        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
+        self._keyboard.bind(on_key_down=self._on_keyboard_down)
+
+    def _keyboard_closed(self):
+        self._keyboard.unbind(on_key_down=self._on_keyboard_down)
+        self._keyboard = None
+
+    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        if keycode[1] in self.runnable.bridge.key_actions:
+            self.runnable.bridge.key_actions[keycode[1]](self.runnable, self)
+        return True
 
     def update(self, dt):
         self.runnable.step()
         buf = self.runnable.render()
         self.viewport.blit_buffer(buf, colorfmt='rgb', bufferfmt='ubyte')
         self.background.texture = self.viewport
+
+    def exit_app(self):
+        app = App.get_running_app()
+        app.stop()
 
 
 class GUI(App):
