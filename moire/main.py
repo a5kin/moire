@@ -1,3 +1,5 @@
+import time
+
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
@@ -10,6 +12,8 @@ from kivy.config import Config
 
 Config.set('graphics', 'fullscreen', 'auto')
 Config.write()
+
+FRAME_RATE = 25
 
 
 class MainEngine(Widget):
@@ -37,10 +41,21 @@ class MainEngine(Widget):
         return True
 
     def update(self, dt):
-        self.runnable.step()
+        # remember start time
+        start_time = time.time()
+        # render the runnable
         buf = self.runnable.render()
         self.viewport.blit_buffer(buf, colorfmt='rgb', bufferfmt='ubyte')
         self.background.texture = self.viewport
+        # safely run one or several steps
+        for i in range(self.runnable.speed):
+            self.runnable.step()
+            if time.time() - start_time > 1 / FRAME_RATE:
+                break
+        # wait until the frame ends if necessary
+        if time.time() - start_time < 1 / FRAME_RATE:
+            time.sleep(1 / FRAME_RATE - time.time() + start_time)
+        Clock.schedule_once(self.update)
 
     def exit_app(self):
         app = App.get_running_app()
@@ -70,5 +85,5 @@ class GUI(App):
         engine = MainEngine()
         engine.runnable = self.runnable
         engine.prepare()
-        Clock.schedule_interval(engine.update, 1.0 / 25.0)
+        Clock.schedule_once(engine.update)
         return engine
