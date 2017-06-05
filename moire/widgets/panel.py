@@ -1,5 +1,7 @@
 from kivy.graphics import Rectangle, Color, Line
 from kivy.uix.floatlayout import FloatLayout
+from kivy.core.window import Window
+from kivy.animation import Animation
 
 
 class PanelWidget(FloatLayout):
@@ -7,6 +9,8 @@ class PanelWidget(FloatLayout):
     def __init__(self, **kwargs):
         super(PanelWidget, self).__init__(**kwargs)
         self.bind(pos=self.redraw)
+        self.bind(x=self.redraw)
+        self.bind(y=self.redraw)
         self.bind(size=self.redraw)
         # hardcoded stuff
         self.color = (.1, .6, .6)
@@ -14,6 +18,31 @@ class PanelWidget(FloatLayout):
         self.corner_width = 1.5
         self.corner_len = 7
         self.opacity = .85
+        # show/hide animations (hardcoded in half)
+        self.hidden = True
+        self.trans_duration = .3
+        self.show_style = "in_bounce"
+        self.hide_style = "out_bounce"
+        sx, sy = self.pos
+        w, h = self.size
+        gw, gh = Window.size
+        hidden_x = gw + 10
+        self.x, self.y = (hidden_x, sy)
+        self.show_animation = Animation(x=sx, duration=self.trans_duration,
+                                        t=self.show_style)
+        self.hide_animation = Animation(x=hidden_x,
+                                        duration=self.trans_duration,
+                                        t=self.hide_style)
+
+    def toggle(self):
+        """ Toggle show/hide the panel with its contents. """
+        if self.hidden:
+            self.hide_animation.stop(self)
+            self.show_animation.start(self)
+        else:
+            self.show_animation.stop(self)
+            self.hide_animation.start(self)
+        self.hidden = not self.hidden
 
     def redraw(self, *args):
         """ Redraw panel on the canvas. """
