@@ -1,13 +1,15 @@
 import time
 
 from kivy.app import App
-from kivy.uix.widget import Widget
+from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty
 from kivy.graphics.texture import Texture
 from kivy.graphics import Rectangle
 from kivy.config import Config
+
+from moire.widgets import SystemInfoWidget
 
 
 Config.set('graphics', 'fullscreen', 'auto')
@@ -16,20 +18,26 @@ Config.write()
 FRAME_RATE = 25
 
 
-class MainEngine(Widget):
+class MainEngine(FloatLayout):
 
     viewport = ObjectProperty()
     runnable = ObjectProperty()
     background = ObjectProperty()
 
     def prepare(self):
+        # background for rendering
         self.viewport = Texture.create(size=Window.size)
         self.runnable.set_viewport(Window.size)
         with self.canvas:
             self.background = Rectangle(texture=self.viewport,
                                         pos=(0, 0), size=Window.size)
+        # keyboard
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
+        # system info
+        self.sysinfo = SystemInfoWidget(size_hint=(.2, .2),
+                                        pos_hint={"y": .75, "x": .75})
+        self.add_widget(self.sysinfo)
 
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
