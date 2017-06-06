@@ -21,13 +21,13 @@ class PanelWidget(FloatLayout):
         # show/hide animations (hardcoded in half)
         self.hidden = True
         self.trans_duration = .3
-        self.show_style = "in_bounce"
-        self.hide_style = "out_bounce"
+        self.show_style = "out_bounce"
+        self.hide_style = "in_bounce"
         sx, sy = self.pos
         w, h = self.size
         gw, gh = Window.size
         hidden_x = gw + 10
-        self.x, self.y = (hidden_x, sy)
+        self.x = hidden_x
         self.show_animation = Animation(x=sx, duration=self.trans_duration,
                                         t=self.show_style)
         self.hide_animation = Animation(x=hidden_x,
@@ -57,6 +57,7 @@ class PanelWidget(FloatLayout):
                   self.color[2], 1)
             x, y = self.pos
             w, h = self.size
+            print("Redrawing", x, y, w, h)
             Line(points=[x, y, x + w, y, x + w,
                          y + h, x, y + h, x, y],
                  width=self.border_width,

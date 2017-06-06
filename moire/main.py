@@ -35,8 +35,7 @@ class MainEngine(FloatLayout):
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
         # system info
-        self.sysinfo = SystemInfoWidget(size_hint=(.2, .2),
-                                        pos_hint={"y": .75, "x": .75})
+        self.sysinfo = SystemInfoWidget()
         self.add_widget(self.sysinfo)
 
     def _keyboard_closed(self):
