@@ -8,6 +8,8 @@ class SystemInfoWidget(PanelWidget):
         gw, gh = Window.size
         w, h = int(gw * 0.1), int(gh * 0.2)
         kwargs['pos'] = (gw - w - 15, gh - h - 15)
-        kwargs['size'] = (w, h)
-        print(w, h)
+        kwargs['size_hint'] = (None, None)
+        kwargs['width'] = w
+        kwargs['height'] = h
         super(SystemInfoWidget, self).__init__(**kwargs)
+        
