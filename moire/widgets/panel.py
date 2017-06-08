@@ -9,8 +9,6 @@ class PanelWidget(FloatLayout):
     def __init__(self, **kwargs):
         super(PanelWidget, self).__init__(**kwargs)
         self.bind(pos=self.redraw)
-        self.bind(x=self.redraw)
-        self.bind(y=self.redraw)
         self.bind(size=self.redraw)
         # hardcoded stuff
         self.color = (.1, .6, .6)

@@ -48,6 +48,7 @@ class MainEngine(FloatLayout):
         return True
 
     def update(self, dt):
+        # print(self.sysinfo.label1.pos, self.sysinfo.label1.size)
         # remember start time
         start_time = time.time()
         # render the runnable
