@@ -19,9 +19,12 @@ class SystemInfoWidget(PanelWidget):
         kwargs['width'] = w
         kwargs['height'] = h
         super(SystemInfoWidget, self).__init__(**kwargs)
-        self.table = GridLayout(cols=2, pos_hint={'x': 0, 'y': 0})
-        self.label1 = Button(text='FPS')
-        self.table.add_widget(self.label1)
-        self.value1 = Label(text=str(self.fps))
-        self.table.add_widget(self.value1)
+        self.table = GridLayout(cols=2, pos_hint={'x': 0, 'y': 0},
+                                row_force_default=True, row_default_height=40)
+        label = Label(text='FPS: ',
+                      text_size=(w * 0.3, 0), halign='right')
+        self.table.add_widget(label)
+        value = Label(text=str(self.fps),
+                      text_size=(w * 0.7, 0), halign='left')
+        self.table.add_widget(value)
         self.add_widget(self.table)

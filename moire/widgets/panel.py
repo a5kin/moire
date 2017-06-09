@@ -45,6 +45,8 @@ class PanelWidget(FloatLayout):
 
     def redraw(self, *args):
         """ Redraw panel on the canvas. """
+        saved_children = self.children[:]
+        self.clear_widgets()
         self.canvas.clear()
         with self.canvas:
             # background
@@ -78,3 +80,5 @@ class PanelWidget(FloatLayout):
                          x + w - self.corner_len, y + h],
                  width=self.corner_width,
                  cap='square', joint='miter')
+        for widget in saved_children:
+            self.add_widget(widget)
