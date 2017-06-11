@@ -48,7 +48,7 @@ class MainEngine(FloatLayout):
         return True
 
     def update(self, dt):
-        self.sysinfo.fps = 34
+        #self.sysinfo["fps"] = 34
         # remember start time
         start_time = time.time()
         # render the runnable
