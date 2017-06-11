@@ -25,3 +25,6 @@ class SystemInfoWidget(PanelWidget):
         )
         self.values = DescriptiveList(fields, w)
         self.add_widget(self.values)
+
+    def __setitem__(self, key, value):
+        self.values[key] = value

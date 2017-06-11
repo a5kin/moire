@@ -48,7 +48,8 @@ class MainEngine(FloatLayout):
         return True
 
     def update(self, dt):
-        #self.sysinfo["fps"] = 34
+        self.sysinfo["time"] = self.runnable.timestep
+        self.sysinfo["speed"] = "%dx" % self.runnable.speed
         # remember start time
         start_time = time.time()
         # render the runnable
