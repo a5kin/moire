@@ -11,7 +11,7 @@ class SystemInfoWidget(PanelWidget):
 
     def __init__(self, **kwargs):
         gw, gh = Window.size
-        w, h = int(gw * 0.1), int(gh * 0.2)
+        w, h = int(gw * 0.115), int(gh * 0.08)
         kwargs['pos'] = (gw - w - 15, gh - h - 15)
         kwargs['size_hint'] = (None, None)
         kwargs['width'] = w
@@ -23,7 +23,7 @@ class SystemInfoWidget(PanelWidget):
             "Speed",
             "Time",
         )
-        self.values = DescriptiveList(fields, w)
+        self.values = DescriptiveList(fields, w, h / 5)
         self.add_widget(self.values)
 
     def __setitem__(self, key, value):

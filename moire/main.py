@@ -1,4 +1,5 @@
 import time
+import os
 
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
@@ -8,12 +9,16 @@ from kivy.properties import ObjectProperty
 from kivy.graphics.texture import Texture
 from kivy.graphics import Rectangle
 from kivy.config import Config
+from kivy.resources import resource_add_path
 
 from moire.widgets import SystemInfoWidget
 
 
 Config.set('graphics', 'fullscreen', 'auto')
 Config.write()
+
+cur_dir = os.path.dirname(os.path.realpath(__file__))
+resource_add_path(os.path.join(cur_dir, "assets/fonts/"))
 
 MAX_FRAME_RATE = 25
 FPS_UPDATE_TIME = 0.5
