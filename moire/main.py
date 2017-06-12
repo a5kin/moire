@@ -15,7 +15,8 @@ from moire.widgets import SystemInfoWidget
 Config.set('graphics', 'fullscreen', 'auto')
 Config.write()
 
-FRAME_RATE = 25
+MAX_FRAME_RATE = 25
+FPS_UPDATE_TIME = 0.5
 
 
 class MainEngine(FloatLayout):
@@ -37,6 +38,10 @@ class MainEngine(FloatLayout):
         # system info
         self.sysinfo = SystemInfoWidget()
         self.add_widget(self.sysinfo)
+        # fps detecting stuff
+        self._last_fps_check_time = time.time()
+        self._frames_since_last_check = 0
+        self._steps_since_last_check = 0
 
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
@@ -47,9 +52,22 @@ class MainEngine(FloatLayout):
             self.runnable.bridge.key_actions[keycode[1]](self.runnable, self)
         return True
 
-    def update(self, dt):
+    def update_sysinfo(self):
         self.sysinfo["time"] = self.runnable.timestep
         self.sysinfo["speed"] = "%dx" % self.runnable.speed
+        curtime = time.time()
+        time_passed = curtime - self._last_fps_check_time
+        if time_passed >= FPS_UPDATE_TIME and self._frames_since_last_check:
+            fps = self._frames_since_last_check / time_passed
+            sps = self._steps_since_last_check / time_passed
+            self.sysinfo["fps"] = "%.2f" % fps
+            self.sysinfo["sps"] = "%.2f" % sps
+            self._last_fps_check_time = curtime
+            self._frames_since_last_check = 0
+            self._steps_since_last_check = 0
+
+    def update(self, dt):
+        self.update_sysinfo()
         # remember start time
         start_time = time.time()
         # render the runnable
@@ -59,11 +77,13 @@ class MainEngine(FloatLayout):
         # safely run one or several steps
         for i in range(self.runnable.speed):
             self.runnable.step()
-            if time.time() - start_time > 1 / FRAME_RATE:
+            self._steps_since_last_check += 1
+            if time.time() - start_time > 1 / MAX_FRAME_RATE:
                 break
+        self._frames_since_last_check += 1
         # wait until the frame ends if necessary
-        if time.time() - start_time < 1 / FRAME_RATE:
-            time.sleep(1 / FRAME_RATE - time.time() + start_time)
+        if time.time() - start_time < 1 / MAX_FRAME_RATE:
+            time.sleep(1 / MAX_FRAME_RATE - time.time() + start_time)
         Clock.schedule_once(self.update)
 
     def exit_app(self):
