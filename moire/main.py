@@ -123,8 +123,8 @@ class GUI(App):
         super(GUI, self).__init__(**kwargs)
 
     def build(self):
-        engine = MainEngine()
-        engine.runnable = self.runnable
-        engine.prepare()
-        Clock.schedule_once(engine.update)
-        return engine
+        self.engine = MainEngine()
+        self.engine.runnable = self.runnable
+        self.engine.prepare()
+        Clock.schedule_once(self.engine.update)
+        return self.engine
