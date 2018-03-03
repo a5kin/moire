@@ -86,6 +86,8 @@ class MainEngine(FloatLayout):
             self._steps_since_last_check += 1
             if time.time() - start_time > 1 / MAX_FRAME_RATE:
                 spd = max(int(self.runnable.speed / 1.1), i + 1)
+                if self.runnable.speed == spd and spd > 1:
+                    spd -= 1
                 self.runnable.speed = spd
                 message = "MOIRE: Clock overrun, speed is set to %dx" % spd
                 Logger.warning(message)
