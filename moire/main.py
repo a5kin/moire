@@ -31,6 +31,14 @@ class MainEngine(FloatLayout):
     runnable = ObjectProperty()
     background = ObjectProperty()
 
+    def __init__(self, *args, **kwargs):
+        super(MainEngine, self).__init__(*args, **kwargs)
+        self.sysinfo = SystemInfoWidget()
+        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
+        self._last_fps_check_time = time.time()
+        self._frames_since_last_check = 0
+        self._steps_since_last_check = 0
+
     def prepare(self):
         # background for rendering
         self.viewport = Texture.create(size=Window.size)
@@ -39,15 +47,9 @@ class MainEngine(FloatLayout):
             self.background = Rectangle(texture=self.viewport,
                                         pos=(0, 0), size=Window.size)
         # keyboard
-        self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
         # system info
-        self.sysinfo = SystemInfoWidget()
         self.add_widget(self.sysinfo)
-        # fps detecting stuff
-        self._last_fps_check_time = time.time()
-        self._frames_since_last_check = 0
-        self._steps_since_last_check = 0
 
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
@@ -121,10 +123,10 @@ class GUI(App):
         else:
             self.size = Window.size
         Window.size = self.size
+        self.engine = MainEngine()
         super(GUI, self).__init__(**kwargs)
 
     def build(self):
-        self.engine = MainEngine()
         self.engine.runnable = self.runnable
         self.engine.prepare()
         Clock.schedule_once(self.engine.update)
