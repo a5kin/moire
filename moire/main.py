@@ -18,8 +18,8 @@ from moire.widgets import SystemInfoWidget
 Config.set('graphics', 'fullscreen', 'auto')
 Config.write()
 
-cur_dir = os.path.dirname(os.path.realpath(__file__))
-resource_add_path(os.path.join(cur_dir, "assets/fonts/"))
+CUR_DIR = os.path.dirname(os.path.realpath(__file__))
+resource_add_path(os.path.join(CUR_DIR, "assets/fonts/"))
 
 MAX_FRAME_RATE = 25
 FPS_UPDATE_TIME = 0.5
