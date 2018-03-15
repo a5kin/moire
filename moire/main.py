@@ -31,9 +31,10 @@ class MainEngine(FloatLayout):
     runnable = ObjectProperty()
     background = ObjectProperty()
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, app, *args, **kwargs):
         super(MainEngine, self).__init__(*args, **kwargs)
         self.sysinfo = SystemInfoWidget()
+        self._app = app
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
         self._last_fps_check_time = time.time()
         self._frames_since_last_check = 0
@@ -102,8 +103,7 @@ class MainEngine(FloatLayout):
         Clock.schedule_once(self.update)
 
     def exit_app(self):
-        app = App.get_running_app()
-        app.stop()
+        self._app.stop()
 
 
 class GUI(App):
@@ -123,7 +123,7 @@ class GUI(App):
         else:
             self.size = Window.size
         Window.size = self.size
-        self.engine = MainEngine()
+        self.engine = MainEngine(self)
         super(GUI, self).__init__(**kwargs)
 
     def build(self):
