@@ -10,12 +10,12 @@ class SystemInfoWidget(PanelWidget):
     fps = NumericProperty()
 
     def __init__(self, **kwargs):
-        gw, gh = Window.size
-        w, h = int(gw * 0.115), int(gh * 0.08)
-        kwargs['pos'] = (gw - w - 15, gh - h - 15)
+        global_w, global_h = Window.size
+        width, height = int(global_w * 0.115), int(global_h * 0.08)
+        kwargs['pos'] = (global_w - width - 15, global_h - height - 15)
         kwargs['size_hint'] = (None, None)
-        kwargs['width'] = w
-        kwargs['height'] = h
+        kwargs['width'] = width
+        kwargs['height'] = height
         super(SystemInfoWidget, self).__init__(**kwargs)
         fields = (
             "FPS",
@@ -23,7 +23,7 @@ class SystemInfoWidget(PanelWidget):
             "Speed",
             "Time",
         )
-        self.values = DescriptiveList(fields, w, h / 5)
+        self.values = DescriptiveList(fields, width, height / 5)
         self.add_widget(self.values)
 
     def __setitem__(self, key, value):

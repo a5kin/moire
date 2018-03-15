@@ -22,12 +22,12 @@ class PanelWidget(FloatLayout):
         self.trans_duration_out = .3
         self.show_style = "out_elastic"
         self.hide_style = "in_back"
-        sx, sy = self.pos
-        w, h = self.size
-        gw, gh = Window.size
-        hidden_x = gw + 10
+        scroll_x = self.pos[0]
+        global_w = Window.size[0]
+        hidden_x = global_w + 10
         self.x = hidden_x
-        self.show_animation = Animation(x=sx, duration=self.trans_duration_in,
+        self.show_animation = Animation(x=scroll_x,
+                                        duration=self.trans_duration_in,
                                         t=self.show_style)
         self.hide_animation = Animation(x=hidden_x,
                                         duration=self.trans_duration_out,
@@ -43,7 +43,7 @@ class PanelWidget(FloatLayout):
             self.hide_animation.start(self)
         self.hidden = not self.hidden
 
-    def redraw(self, *args):
+    def redraw(self, *_args):
         """ Redraw panel on the canvas. """
         saved_children = self.children[:]
         self.clear_widgets()
@@ -56,28 +56,34 @@ class PanelWidget(FloatLayout):
             # border
             Color(self.color[0], self.color[1],
                   self.color[2], 1)
-            x, y = self.pos
-            w, h = self.size
-            Line(points=[x, y, x + w, y, x + w,
-                         y + h, x, y + h, x, y],
+            pos_x, pos_y = self.pos
+            width, height = self.size
+            Line(points=[pos_x, pos_y, pos_x + width,
+                         pos_y, pos_x + width,
+                         pos_y + height, pos_x,
+                         pos_y + height, pos_x, pos_y],
                  width=self.border_width,
                  cap='square', joint='miter')
             # corners
             Color(1, 1, 1, .7)
-            Line(points=[x + self.corner_len, y, x, y,
-                         x, y + self.corner_len],
+            Line(points=[pos_x + self.corner_len, pos_y,
+                         pos_x, pos_y,
+                         pos_x, pos_y + self.corner_len],
                  width=self.corner_width,
                  cap='square', joint='miter')
-            Line(points=[x + w - self.corner_len, y, x + w, y,
-                         x + w, y + self.corner_len],
+            Line(points=[pos_x + width - self.corner_len,
+                         pos_y, pos_x + width, pos_y,
+                         pos_x + width, pos_y + self.corner_len],
                  width=self.corner_width,
                  cap='square', joint='miter')
-            Line(points=[x, y + h - self.corner_len, x, y + h,
-                         x + self.corner_len, y + h],
+            Line(points=[pos_x, pos_y + height - self.corner_len,
+                         pos_x, pos_y + height,
+                         pos_x + self.corner_len, pos_y + height],
                  width=self.corner_width,
                  cap='square', joint='miter')
-            Line(points=[x + w, y + h - self.corner_len, x + w, y + h,
-                         x + w - self.corner_len, y + h],
+            Line(points=[pos_x + width, pos_y + height - self.corner_len,
+                         pos_x + width, pos_y + height,
+                         pos_x + width - self.corner_len, pos_y + height],
                  width=self.corner_width,
                  cap='square', joint='miter')
         for widget in saved_children:
