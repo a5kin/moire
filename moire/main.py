@@ -53,7 +53,8 @@ class MainEngine(FloatLayout):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
 
-    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+    def _on_keyboard_down(self, *args):
+        keycode = args[1]
         if keycode[1] in self.runnable.bridge.key_actions:
             self.runnable.bridge.key_actions[keycode[1]](self.runnable, self)
         return True
@@ -72,7 +73,7 @@ class MainEngine(FloatLayout):
             self._frames_since_last_check = 0
             self._steps_since_last_check = 0
 
-    def update(self, dt):
+    def update(self, _dt):
         self.update_sysinfo()
         # remember start time
         start_time = time.time()
