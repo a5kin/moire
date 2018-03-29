@@ -173,6 +173,10 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
+MOCKED_CLASSES = [
+    "FloatLayout", "GridLayout", "App",
+]
+
 
 class Mock(MagicMock):
     """Mock uninstallable classes."""
@@ -180,8 +184,8 @@ class Mock(MagicMock):
     @classmethod
     def __getattr__(cls, name):
         """Get common attribute."""
-        if name == "cached_property":
-            return property
+        if name in MOCKED_CLASSES:
+            return object
         return MagicMock()
 
 
