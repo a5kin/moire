@@ -33,6 +33,6 @@ use it to visualize your own step-by-step simulations.
 
 For more information, please refer to the official `Moire Documentation`_.
 
-.. _Artipixoids!: http://artipixoids.a5kin.net/concept/artipixoids_concept.pdf
+.. _Artipixoids!: http://artipixoids.a5kin.net/
 .. _Xentica: https://github.com/a5kin/xentica/
-.. _Moire Documentation: http://xentica.readthedocs.io/
+.. _Moire Documentation: http://moire.readthedocs.io/
