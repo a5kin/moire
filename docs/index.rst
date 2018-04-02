@@ -6,7 +6,7 @@ Moire: Multi-Objective Interactive Runtime Environment
 The official GUI for `Artipixoids!`_ project.
 
 It is integrating natively with `Xentica`_ framework, but you may also
-use it to visualize any step-by-step simulations.
+use it to visualize your own step-by-step simulations.
 
 .. _Artipixoids!: http://artipixoids.a5kin.net/concept/artipixoids_concept.pdf
 .. _Xentica: https://github.com/a5kin/xentica/
