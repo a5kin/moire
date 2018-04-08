@@ -1,3 +1,9 @@
+"""
+Main module containing the base class for Moire GUI.
+
+All Moire apps should be ran using :class:`GUI` class. See the example below.
+
+"""
 import time
 import os
 
@@ -26,12 +32,25 @@ FPS_UPDATE_TIME = 0.5
 
 
 class MainEngine(FloatLayout):
+    """
+    Class incapsulating main Moire engine functionality.
 
+    :param app:
+        :class:`GUI` class instance.
+
+    """
+
+    #: Kivy property containing rendered frames as ``Texture``.
     viewport = ObjectProperty()
+
+    #: Kivy property containing runnable class.
     runnable = ObjectProperty()
+
+    #: Kivy property containing ``Rectangle`` with rendered frames.
     background = ObjectProperty()
 
     def __init__(self, app, *args, **kwargs):
+        """Initialize necessary stuff."""
         super(MainEngine, self).__init__(*args, **kwargs)
         self.sysinfo = SystemInfoWidget()
         self._app = app
@@ -41,6 +60,7 @@ class MainEngine(FloatLayout):
         self._steps_since_last_check = 0
 
     def prepare(self):
+        """Do main preparations before app run."""
         # background for rendering
         self.viewport = Texture.create(size=Window.size)
         self.runnable.set_viewport(Window.size)
@@ -53,16 +73,19 @@ class MainEngine(FloatLayout):
         self.add_widget(self.sysinfo)
 
     def _keyboard_closed(self):
+        """Handle keyboard closing."""
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
 
     def _on_keyboard_down(self, *args):
+        """Handle key down."""
         keycode = args[1]
         if keycode[1] in self.runnable.bridge.key_actions:
             self.runnable.bridge.key_actions[keycode[1]](self.runnable, self)
         return True
 
     def update_sysinfo(self):
+        """Update System Info widget with actual data."""
         self.sysinfo["time"] = self.runnable.timestep
         self.sysinfo["speed"] = "%dx" % self.runnable.speed
         curtime = time.time()
@@ -77,6 +100,7 @@ class MainEngine(FloatLayout):
             self._steps_since_last_check = 0
 
     def update(self, _dt):
+        """Update the whole app, while keeping the frame rate."""
         self.update_sysinfo()
         # remember start time
         start_time = time.time()
@@ -102,12 +126,32 @@ class MainEngine(FloatLayout):
         Clock.schedule_once(self.update)
 
     def exit_app(self):
+        """Exit the app in convenient way."""
         self._app.stop()
 
 
 class GUI(App):
+    """
+    Main class for moire GUI.
+
+    Moire apps should be ran with it in following way::
+
+        runnable = YourRunnable()
+        gui = moire.GUI(runnable=runnable)
+        gui.run()
+
+    The engine is fully relying on your custom runnable class. It
+    should implement a number of features like perform a simulation
+    step, render frame etc. See the detailed example in the official
+    NoiseTV example.
+
+    :param runnable:
+        Runnable class, implementing all necessary features.
+
+    """
 
     def __init__(self, **kwargs):
+        """Initialize the GUI."""
         if 'runnable' in kwargs:
             self.runnable = kwargs['runnable']
             del kwargs['runnable']
@@ -126,6 +170,7 @@ class GUI(App):
         super(GUI, self).__init__(**kwargs)
 
     def build(self):
+        """Prepare GUI for running."""
         self.engine.runnable = self.runnable
         self.engine.prepare()
         Clock.schedule_once(self.engine.update)
