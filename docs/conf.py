@@ -179,9 +179,9 @@ MOCKED_CLASSES = [
     "FloatLayout", "GridLayout", "App",
 ]
 
-
-class ObjectProperty:
-    """Workaround for Kivy ObjectProperty."""
+MOCKED_CLASSVARS_VALUES = [
+    "ObjectProperty", "NumericProperty",
+]
 
 
 class Mock(MagicMock):
@@ -192,8 +192,8 @@ class Mock(MagicMock):
         """Get common attribute."""
         if name in MOCKED_CLASSES:
             return object
-        if name == "ObjectProperty":
-            return ObjectProperty
+        if name in MOCKED_CLASSVARS_VALUES:
+            return type(name, (object, ), {})
         return MagicMock()
 
 
