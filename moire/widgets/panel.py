@@ -1,3 +1,4 @@
+"""Module with the base ``Panel`` class."""
 from kivy.graphics import Rectangle, Color, Line
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
@@ -5,8 +6,16 @@ from kivy.animation import Animation
 
 
 class PanelWidget(FloatLayout):
+    """
+    The implementation of the base panel widget.
+
+    Other widgets could be inherited from ``Panel`` in order to get
+    the standard visual decoration and show/hide transitions.
+
+    """
 
     def __init__(self, **kwargs):
+        """Initialize the widget and its state variables."""
         super(PanelWidget, self).__init__(**kwargs)
         self.bind(pos=self.redraw)
         self.bind(size=self.redraw)
@@ -34,7 +43,7 @@ class PanelWidget(FloatLayout):
                                         t=self.hide_style)
 
     def toggle(self):
-        """ Toggle show/hide the panel with its contents. """
+        """Toggle show/hide the panel with its contents."""
         if self.hidden:
             self.hide_animation.stop(self)
             self.show_animation.start(self)
@@ -44,7 +53,7 @@ class PanelWidget(FloatLayout):
         self.hidden = not self.hidden
 
     def redraw(self, *_args):
-        """ Redraw panel on the canvas. """
+        """Redraw panel on the canvas."""
         saved_children = self.children[:]
         self.clear_widgets()
         self.canvas.clear()
