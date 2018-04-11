@@ -21,6 +21,7 @@ documentation root, use os.path.abspath to make it absolute, like shown here.
 
 import os
 import sys
+import datetime
 from unittest.mock import MagicMock
 
 sys.path.insert(0, os.path.abspath('..'))
@@ -56,7 +57,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Moire'
-copyright = '2017, Andrey Zamaraev'
+copyright = '2017-%s, Andrey Zamaraev' % datetime.datetime.now().strftime("%Y")
 author = 'Andrey Zamaraev'
 
 # The version info for the project you're documenting, acts as replacement for
