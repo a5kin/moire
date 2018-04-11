@@ -77,6 +77,10 @@ class MainEngine(FloatLayout):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
 
+    def key_down(self, key):
+        """Emulate key down."""
+        self._on_keyboard_down(None, (None, key), None, None)
+
     def _on_keyboard_down(self, *args):
         """Handle key down."""
         keycode = args[1]

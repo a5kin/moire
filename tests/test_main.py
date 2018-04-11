@@ -22,7 +22,7 @@ class TestMainApp(unittest.TestCase):
 
     def press_key(self, key):
         """Emulate key pressing."""
-        self.app.engine._on_keyboard_down(None, (None, key), None, None)
+        self.app.engine.key_down(key)
 
     def stop_app(self, *_):
         """Stop main application."""
