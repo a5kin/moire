@@ -107,24 +107,25 @@ class Bridge:
     """Main bridge class containing basic functions."""
 
     @staticmethod
-    def exit_app(env, gui):
+    def exit_app(_env, gui):
         """Exit GUI application."""
         gui.exit_app()
 
     @staticmethod
     def speed(dspeed):
         """Change simulation speed."""
-        def func(env, gui):
+        def func(env, _gui):
+            """Wrap speed applying."""
             env.apply_speed(dspeed)
         return func
 
     @staticmethod
-    def toggle_pause(env, gui):
+    def toggle_pause(env, _gui):
         """Pause/unpause simulation."""
         env.toggle_pause()
 
     @staticmethod
-    def toggle_sysinfo(env, gui):
+    def toggle_sysinfo(_env, gui):
         """Turn system info panel on/off."""
         gui.sysinfo.toggle()
 
