@@ -10,6 +10,11 @@ from examples.noisetv import NoiseTV
 class TestMainApp(unittest.TestCase):
     """Tests for main app."""
 
+    def __init__(self, *args, **kwargs):
+        """Initialize test."""
+        super(TestMainApp, self).__init__(*args, **kwargs)
+        self.app = None
+
     def check_run(self, *_):
         """Check app is running."""
         self.assertGreater(self.app.runnable.timestep, 0,
