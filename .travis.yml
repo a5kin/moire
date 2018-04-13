@@ -9,7 +9,7 @@ python:
 
 install:
     - pip install --quiet tox
-    - pip install --quiet Cython==0.23.1
+    - pip install --quiet Cython==0.23
     - pip install kivy==1.9.1
 
 script:
