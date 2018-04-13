@@ -10,7 +10,7 @@ python:
 install:
     - pip install --quiet tox
     - pip install --quiet Cython==0.23.1
-    - pip install --quiet kivy==1.9.1
+    - pip install kivy==1.9.1
 
 script:
     - if [[ $TRAVIS_PYTHON_VERSION == 2* || $TRAVIS_PYTHON_VERSION == 3* ]]; then tox -e $(echo $TRAVIS_PYTHON_VERSION | sed 's/\.//g;s/^/py/'); fi
