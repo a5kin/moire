@@ -6,6 +6,7 @@ All Moire apps should be ran using :class:`GUI` class. See the example below.
 """
 import time
 import os
+import pkg_resources
 
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
@@ -24,7 +25,7 @@ from moire.widgets import SystemInfoWidget
 Config.set('graphics', 'fullscreen', 'auto')
 Config.write()
 
-CUR_DIR = os.path.dirname(os.path.realpath(__file__))
+CUR_DIR = pkg_resources.resource_filename(__name__, "")
 resource_add_path(os.path.join(CUR_DIR, "assets/fonts/"))
 
 MAX_FRAME_RATE = 25
