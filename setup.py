@@ -38,6 +38,7 @@ setup(
     ],
     keywords='gui interactive environment simulation visualization',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    include_package_data=True,
     install_requires=[
         # Dependencies are removed until Kivy 1.10.1 will be out
         # 'Cython==0.23.1',
