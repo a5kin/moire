@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## 0.1.0 - 2018-04-XX
+## 0.1.0 - 2018-05-05
 ### Added
 
 - Main Engine.
@@ -35,4 +35,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Code of Conduct
   - Changelog.
 
-[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/a5kin/moire/compare/v0.1.0...HEAD
