@@ -5,45 +5,82 @@ Installation Instructions
 for its core functionality. Also, you need `NumPy`_ in order to run
 examples and tests.
 
-.. warning::
-   This page *may* give you some insights on how to set up your
-   environment and run Moire examples, but without any
-   guarantees. More detailed instructions are coming soon.
+.. note::
+   This page currently containing instructions only for Debian-like
+   systems. If you are on other system, you still can use links to
+   pre-requisites in order to install them. If so, please contact us
+   by `opening an issue`_ on GitHub. We could help you if you'll meet
+   some troubles during installation, and also your experience could
+   be used to improve this document.
 
 Prerequisites
 -------------
 
 - `Python 3.5+`_
 
+  Your distribution should already have all you need::
+
+    $ sudo apt-get install python3 python3-dev python3-pip wheel
+
 - `Kivy`_
 
-Possible solution for Debian-like systems::
+Its pre-requisites could be installed by::
 
-  $ sudo apt-get install python3
-  $ sudo pip3 install Cython==0.23
-  $ sudo pip3 install kivy
+  $ sudo apt-get install \
+    build-essential \
+    git \
+    ffmpeg \
+    libsdl2-dev \
+    libsdl2-image-dev \
+    libsdl2-mixer-dev \
+    libsdl2-ttf-dev \
+    libportmidi-dev \
+    libswscale-dev \
+    libavformat-dev \
+    libavcodec-dev \
+    zlib1g-dev
+
+Then, to install stable Kivy::
+
+  $ pip3 install Cython==0.25 Kivy==1.10.0
+
+On latest Debian distributions you can meet conflicts with
+``libsdl-mixer``. Then, try to install latest developer version,
+like::
+
+  $ pip3 install Cython==0.27.3 git\+https://github.com/kivy/kivy.git
+
+Main package
+------------
+
+Moire package could be installed with::
+
+  $ pip3 install moire
+
+Note, it does not depends on pre-requisites described above, but you
+still need to install them properly, or Moire will not run.
 
 Run Moire examples
 ------------------
 
-In order to run Noise TV environment with Moire:
+In order to run Noise TV environment with Moire::
 
-1. Clone `Moire`_ repository.
+  $ pip3 install numpy
+  $ pip3 install moire
+  $ wget https://raw.githubusercontent.com/a5kin/moire/master/examples/noisetv.py
+  $ python3 game_of_life.py
 
-2. Put it on Python path.
+Run tests
+---------
 
-3. Install `NumPy`_.
+In order to run Moire tests::
 
-4. Run ``moire/examples/noisetv.py`` with Python 3 interpreter.
-
-Possible solution for Debian-like systems::
-
-  $ mkdir moire
-  $ cd moire
   $ git clone https://github.com/a5kin/moire.git
-  $ PYTHONPATH="$(pwd)/moire/:$PYTHONPATH" python3 ./moire/examples/noisetv.py
+  $ cd moire/tests
+  $ ./run_tests.sh
 
 .. _Python 3.5+: https://www.python.org/downloads/
 .. _NumPy: https://docs.scipy.org/doc/
 .. _Kivy: https://kivy.org/docs/installation/installation.html
 .. _Moire: https://github.com/a5kin/moire
+.. _opening an issue: https://github.com/a5kin/moire/issues/new
